@@ -31,7 +31,7 @@ requests and responses.
 
 ```bash
 pip install asn1crypto
-pip install git+git://github.com/wbond/oscrypto.git
+pip install oscrypto
 pip install git+git://github.com/wbond/ocspbuilder.git
 ```
 
