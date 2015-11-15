@@ -27,7 +27,10 @@ setup(
     name='ocspbuilder',
     version=ocspbuilder.__version__,
 
-    description='Creates and signs online certificate status protocol (OCSP) requests and responses',
+    description=(
+        'Creates and signs online certificate status protocol (OCSP) '
+        'requests and responses for X.509 certificates'
+    ),
     long_description='Docs for this project are maintained at https://github.com/wbond/ocspbuilder#readme.',
 
     url='https://github.com/wbond/ocspbuilder',

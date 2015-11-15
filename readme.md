@@ -1,7 +1,7 @@
 # ocspbuilder
 
-A library for creating and signing online certificate status protocol (OCSP)
-requests and responses for X.509 certificates.
+A Python library for creating and signing online certificate status protocol
+(OCSP) requests and responses for X.509 certificates.
 
  - [Related Crypto Libraries](#related-crypto-libraries)
  - [Current Release](#current-release)
