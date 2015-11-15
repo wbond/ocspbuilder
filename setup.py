@@ -58,7 +58,7 @@ setup(
         'Topic :: Security :: Cryptography',
     ],
 
-    keywords='crypto pki',
+    keywords='crypto pki x509 certificate ocsp',
 
     install_requires=[
         'asn1crypto>=0.13',
