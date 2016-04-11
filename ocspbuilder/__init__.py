@@ -454,6 +454,7 @@ class OCSPResponseBuilder(object):
             the response_status is "successful".
 
              - "good" - when the certificate is in good standing
+             - "revoked" - when the certificate is revoked without a reason code
              - "key_compromise" - when a private key is compromised
              - "ca_compromise" - when the CA issuing the certificate is compromised
              - "affiliation_changed" - when the certificate subject name changed
@@ -550,6 +551,7 @@ class OCSPResponseBuilder(object):
         A unicode string of the status of the certificate. Valid values include:
 
          - "good" - when the certificate is in good standing
+         - "revoked" - when the certificate is revoked without a reason code
          - "key_compromise" - when a private key is compromised
          - "ca_compromise" - when the CA issuing the certificate is compromised
          - "affiliation_changed" - when the certificate subject name changed
@@ -570,6 +572,7 @@ class OCSPResponseBuilder(object):
 
         valid_certificate_statuses = set([
             'good',
+            'revoked',
             'key_compromise',
             'ca_compromise',
             'affiliation_changed',
@@ -582,7 +585,7 @@ class OCSPResponseBuilder(object):
         if value not in valid_certificate_statuses:
             raise ValueError(_pretty_message(
                 '''
-                certificate_status must be one of "good", "key_compromise",
+                certificate_status must be one of "good", "revoked", "key_compromise",
                 "ca_compromise", "affiliation_changed", "superseded",
                 "cessation_of_operation", "certificate_hold", "remove_from_crl",
                 "privilege_withdrawn", not %s
@@ -942,11 +945,13 @@ class OCSPResponseBuilder(object):
                 value=core.Null()
             )
         else:
+            status = self._certificate_status
+            reason = status if status != 'revoked' else 'unspecified'
             cert_status = ocsp.CertStatus(
                 name='revoked',
                 value={
                     'revocation_time': self._revocation_date,
-                    'revocation_reason': self._certificate_status
+                    'revocation_reason': reason,
                 }
             )
 
