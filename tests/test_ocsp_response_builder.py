@@ -133,3 +133,39 @@ class OCSPResponseBuilderTests(unittest.TestCase):
         self.assertEqual('good', cert_response['cert_status'].name)
         self.assertGreaterEqual(datetime.now(timezone.utc), cert_response['this_update'].native)
         self.assertGreaterEqual(set(), cert_response.critical_extensions)
+
+    def test_build_unknown_response(self):
+        issuer_key = asymmetric.load_private_key(os.path.join(fixtures_dir, 'test.key'))
+        issuer_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test.crt'))
+        subject_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test-inter.crt'))
+
+        builder = OCSPResponseBuilder('successful', subject_cert, 'unknown')
+        ocsp_response = builder.build(issuer_key, issuer_cert)
+        der_bytes = ocsp_response.dump()
+
+        new_response = asn1crypto.ocsp.OCSPResponse.load(der_bytes)
+        basic_response = new_response['response_bytes']['response'].parsed
+        response_data = basic_response['tbs_response_data']
+
+        self.assertEqual('sha256', basic_response['signature_algorithm'].hash_algo)
+        self.assertEqual('rsassa_pkcs1v15', basic_response['signature_algorithm'].signature_algo)
+        self.assertEqual('v1', response_data['version'].native)
+        self.assertEqual('by_key', response_data['responder_id'].name)
+        self.assertEqual(
+            issuer_cert.asn1.public_key.sha1,
+            response_data['responder_id'].chosen.native
+        )
+        self.assertGreaterEqual(datetime.now(timezone.utc), response_data['produced_at'].native)
+        self.assertEqual(1, len(response_data['responses']))
+        self.assertEqual(0, len(response_data['response_extensions']))
+
+        cert_response = response_data['responses'][0]
+
+        self.assertEqual('sha1', cert_response['cert_id']['hash_algorithm']['algorithm'].native)
+        self.assertEqual(issuer_cert.asn1.subject.sha1, cert_response['cert_id']['issuer_name_hash'].native)
+        self.assertEqual(issuer_cert.asn1.public_key.sha1, cert_response['cert_id']['issuer_key_hash'].native)
+        self.assertEqual(subject_cert.asn1.serial_number, cert_response['cert_id']['serial_number'].native)
+
+        self.assertEqual('unknown', cert_response['cert_status'].name)
+        self.assertGreaterEqual(datetime.now(timezone.utc), cert_response['this_update'].native)
+        self.assertGreaterEqual(set(), cert_response.critical_extensions)
