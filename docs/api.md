@@ -132,6 +132,7 @@
 > >         the response_status is "successful".
 > >     
 > >          - "good" - when the certificate is in good standing
+> >          - "revoked" - when the certificate is revoked without a reason code
 > >          - "key_compromise" - when a private key is compromised
 > >          - "ca_compromise" - when the CA issuing the certificate is compromised
 > >          - "affiliation_changed" - when the certificate subject name changed
@@ -140,11 +141,12 @@
 > >          - "certificate_hold" - when the certificate is temporarily invalid
 > >          - "remove_from_crl" - only delta CRLs - when temporary hold is removed
 > >          - "privilege_withdrawn" - one of the usages for a certificate was removed
+> >          - "unknown" - the responder doesn't know about the certificate being requested
 > >     
 > >     :param revocation_date:
 > >         A datetime.datetime object of when the certificate was revoked, if
 > >         the response_status is "successful" and the certificate status is
-> >         not "good".
+> >         not "good" or "unknown".
 > >     """
 > > ```
 > >
@@ -174,6 +176,7 @@
 > > A unicode string of the status of the certificate. Valid values include:
 > > 
 > >  - "good" - when the certificate is in good standing
+> >  - "revoked" - when the certificate is revoked without a reason code
 > >  - "key_compromise" - when a private key is compromised
 > >  - "ca_compromise" - when the CA issuing the certificate is compromised
 > >  - "affiliation_changed" - when the certificate subject name changed
@@ -182,11 +185,12 @@
 > >  - "certificate_hold" - when the certificate is temporarily invalid
 > >  - "remove_from_crl" - only delta CRLs - when temporary hold is removed
 > >  - "privilege_withdrawn" - one of the usages for a certificate was removed
+> >  - "unknown" - when the responder doesn't know about the certificate being requested
 >
 > ##### `.revocation_date` attribute
 >
 > > A datetime.datetime object of when the certificate was revoked, if the
-> > status is not "good".
+> > status is not "good" or "unknown".
 >
 > ##### `.certificate_issuer` attribute
 >
