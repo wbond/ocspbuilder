@@ -462,11 +462,12 @@ class OCSPResponseBuilder(object):
              - "certificate_hold" - when the certificate is temporarily invalid
              - "remove_from_crl" - only delta CRLs - when temporary hold is removed
              - "privilege_withdrawn" - one of the usages for a certificate was removed
+             - "unknown" - the responder doesn't know about the certificate being requested
 
         :param revocation_date:
             A datetime.datetime object of when the certificate was revoked, if
             the response_status is "successful" and the certificate status is
-            not "good".
+            not "good" or "unknown".
         """
 
         self.response_status = response_status
@@ -558,6 +559,7 @@ class OCSPResponseBuilder(object):
          - "certificate_hold" - when the certificate is temporarily invalid
          - "remove_from_crl" - only delta CRLs - when temporary hold is removed
          - "privilege_withdrawn" - one of the usages for a certificate was removed
+         - "unknown" - when the responder doesn't know about the certificate being requested
         """
 
         if not isinstance(value, str_cls):
@@ -577,7 +579,8 @@ class OCSPResponseBuilder(object):
             'cessation_of_operation',
             'certificate_hold',
             'remove_from_crl',
-            'privilege_withdrawn'
+            'privilege_withdrawn',
+            'unknown',
         ])
         if value not in valid_certificate_statuses:
             raise ValueError(_pretty_message(
@@ -585,7 +588,7 @@ class OCSPResponseBuilder(object):
                 certificate_status must be one of "good", "key_compromise",
                 "ca_compromise", "affiliation_changed", "superseded",
                 "cessation_of_operation", "certificate_hold", "remove_from_crl",
-                "privilege_withdrawn", not %s
+                "privilege_withdrawn", "unknown" not %s
                 ''',
                 repr(value)
             ))
@@ -596,7 +599,7 @@ class OCSPResponseBuilder(object):
     def revocation_date(self, value):
         """
         A datetime.datetime object of when the certificate was revoked, if the
-        status is not "good".
+        status is not "good" or "unknown".
         """
 
         if value is not None and not isinstance(value, datetime):
@@ -939,6 +942,11 @@ class OCSPResponseBuilder(object):
         if self._certificate_status == 'good':
             cert_status = ocsp.CertStatus(
                 name='good',
+                value=core.Null()
+            )
+        elif self._certificate_status == 'unknown':
+            cert_status = ocsp.CertStatus(
+                name='unknown',
                 value=core.Null()
             )
         else:
