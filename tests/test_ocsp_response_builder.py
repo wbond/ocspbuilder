@@ -96,6 +96,25 @@ class OCSPResponseBuilderTests(unittest.TestCase):
         self.assertGreaterEqual(datetime.now(timezone.utc), cert_response['this_update'].native)
         self.assertGreaterEqual(set(), cert_response.critical_extensions)
 
+    def test_build_revoked_no_reason(self):
+        issuer_key = asymmetric.load_private_key(os.path.join(fixtures_dir, 'test.key'))
+        issuer_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test.crt'))
+        subject_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test-inter.crt'))
+
+        revoked_time = datetime(2015, 9, 1, 12, 0, 0, tzinfo=timezone.utc)
+        builder = OCSPResponseBuilder('successful', subject_cert, 'revoked', revoked_time)
+        ocsp_response = builder.build(issuer_key, issuer_cert)
+        der_bytes = ocsp_response.dump()
+
+        new_response = asn1crypto.ocsp.OCSPResponse.load(der_bytes)
+        basic_response = new_response['response_bytes']['response'].parsed
+        response_data = basic_response['tbs_response_data']
+        cert_response = response_data['responses'][0]
+
+        self.assertEqual('revoked', cert_response['cert_status'].name)
+        self.assertEqual(revoked_time, cert_response['cert_status'].chosen['revocation_time'].native)
+        self.assertEqual('unspecified', cert_response['cert_status'].chosen['revocation_reason'].native)
+
     def test_build_delegated_good_response(self):
         responder_key = asymmetric.load_private_key(os.path.join(fixtures_dir, 'test-ocsp.key'), 'password')
         responder_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test-ocsp.crt'))
