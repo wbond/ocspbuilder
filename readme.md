@@ -27,7 +27,7 @@ A Python library for creating and signing online certificate status protocol
 
 ## Current Release
 
-0.9.1 - [changelog](changelog.md)
+0.10.0 - [changelog](changelog.md)
 
 ## Dependencies
 
