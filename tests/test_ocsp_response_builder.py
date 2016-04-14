@@ -188,3 +188,21 @@ class OCSPResponseBuilderTests(unittest.TestCase):
         self.assertEqual('unknown', cert_response['cert_status'].name)
         self.assertGreaterEqual(datetime.now(timezone.utc), cert_response['this_update'].native)
         self.assertGreaterEqual(set(), cert_response.critical_extensions)
+
+    def test_build_error_response(self):
+        """
+        Build a response with error status.
+        """
+        error_statuses = ['malformed_request', 'internal_error',
+                          'try_later', 'sign_required', 'unauthorized']
+
+        for status in error_statuses:
+            builder = OCSPResponseBuilder(status)
+            ocsp_response = builder.build()
+            der_bytes = ocsp_response.dump()
+
+            new_response = asn1crypto.ocsp.OCSPResponse.load(der_bytes)
+            assert dict(new_response.native) == {
+                'response_status': status,
+                'response_bytes': None,
+            }

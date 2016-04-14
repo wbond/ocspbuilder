@@ -8,3 +8,5 @@ tests/output/
 .DS_Store
 .coverage
 .tox
+.cache/
+*.swp

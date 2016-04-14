@@ -472,8 +472,10 @@ class OCSPResponseBuilder(object):
         """
 
         self.response_status = response_status
-        self.certificate = certificate
-        self.certificate_status = certificate_status
+        if response_status == "successful" or certificate:
+            self.certificate = certificate
+        if response_status == "successful" or certificate_status:
+            self.certificate_status = certificate_status
         self.revocation_date = revocation_date
 
         self._key_hash_algo = 'sha1'
