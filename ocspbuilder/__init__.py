@@ -472,10 +472,8 @@ class OCSPResponseBuilder(object):
         """
 
         self.response_status = response_status
-        if response_status == "successful" or certificate:
-            self.certificate = certificate
-        if response_status == "successful" or certificate_status:
-            self.certificate_status = certificate_status
+        self.certificate = certificate
+        self.certificate_status = certificate_status
         self.revocation_date = revocation_date
 
         self._key_hash_algo = 'sha1'
@@ -533,18 +531,19 @@ class OCSPResponseBuilder(object):
         of the certificate the response is about.
         """
 
-        is_oscrypto = isinstance(value, asymmetric.Certificate)
-        if not is_oscrypto and not isinstance(value, x509.Certificate):
-            raise TypeError(_pretty_message(
-                '''
-                certificate must be an instance of asn1crypto.x509.Certificate
-                or oscrypto.asymmetric.Certificate, not %s
-                ''',
-                _type_name(value)
-            ))
+        if value is not None:
+            is_oscrypto = isinstance(value, asymmetric.Certificate)
+            if not is_oscrypto and not isinstance(value, x509.Certificate):
+                raise TypeError(_pretty_message(
+                    '''
+                    certificate must be an instance of asn1crypto.x509.Certificate
+                    or oscrypto.asymmetric.Certificate, not %s
+                    ''',
+                    _type_name(value)
+                ))
 
-        if is_oscrypto:
-            value = value.asn1
+            if is_oscrypto:
+                value = value.asn1
 
         self._certificate = value
 
@@ -566,37 +565,38 @@ class OCSPResponseBuilder(object):
          - "unknown" - when the responder doesn't know about the certificate being requested
         """
 
-        if not isinstance(value, str_cls):
-            raise TypeError(_pretty_message(
-                '''
-                certificate_status must be a unicode string, not %s
-                ''',
-                _type_name(value)
-            ))
+        if value is not None:
+            if not isinstance(value, str_cls):
+                raise TypeError(_pretty_message(
+                    '''
+                    certificate_status must be a unicode string, not %s
+                    ''',
+                    _type_name(value)
+                ))
 
-        valid_certificate_statuses = set([
-            'good',
-            'revoked',
-            'key_compromise',
-            'ca_compromise',
-            'affiliation_changed',
-            'superseded',
-            'cessation_of_operation',
-            'certificate_hold',
-            'remove_from_crl',
-            'privilege_withdrawn',
-            'unknown',
-        ])
-        if value not in valid_certificate_statuses:
-            raise ValueError(_pretty_message(
-                '''
-                certificate_status must be one of "good", "revoked", "key_compromise",
-                "ca_compromise", "affiliation_changed", "superseded",
-                "cessation_of_operation", "certificate_hold", "remove_from_crl",
-                "privilege_withdrawn", "unknown" not %s
-                ''',
-                repr(value)
-            ))
+            valid_certificate_statuses = set([
+                'good',
+                'revoked',
+                'key_compromise',
+                'ca_compromise',
+                'affiliation_changed',
+                'superseded',
+                'cessation_of_operation',
+                'certificate_hold',
+                'remove_from_crl',
+                'privilege_withdrawn',
+                'unknown',
+            ])
+            if value not in valid_certificate_statuses:
+                raise ValueError(_pretty_message(
+                    '''
+                    certificate_status must be one of "good", "revoked", "key_compromise",
+                    "ca_compromise", "affiliation_changed", "superseded",
+                    "cessation_of_operation", "certificate_hold", "remove_from_crl",
+                    "privilege_withdrawn", "unknown" not %s
+                    ''',
+                    repr(value)
+                ))
 
         self._certificate_status = value
 
@@ -902,6 +902,21 @@ class OCSPResponseBuilder(object):
 
         if cert_is_oscrypto:
             responder_certificate = responder_certificate.asn1
+
+        if self._certificate is None:
+            raise ValueError(_pretty_message(
+                '''
+                certificate must be set if the response_status is
+                "successful"
+                '''
+            ))
+        if self._certificate_status is None:
+            raise ValueError(_pretty_message(
+                '''
+                certificate_status must be set if the response_status is
+                "successful"
+                '''
+            ))
 
         def _make_extension(name, value):
             return {

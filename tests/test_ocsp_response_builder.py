@@ -57,6 +57,29 @@ class OCSPResponseBuilderTests(unittest.TestCase):
         self.assertGreaterEqual(datetime.now(timezone.utc), cert_response['this_update'].native)
         self.assertGreaterEqual(set(), cert_response.critical_extensions)
 
+    def test_build_no_certificate(self):
+        issuer_key = asymmetric.load_private_key(os.path.join(fixtures_dir, 'test.key'))
+        issuer_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test.crt'))
+        subject_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test-inter.crt'))
+
+        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+            builder = OCSPResponseBuilder('successful', subject_cert, 'good')
+            builder.certificate = None
+            ocsp_response = builder.build(issuer_key, issuer_cert)
+
+        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+            builder = OCSPResponseBuilder('successful', subject_cert, 'good')
+            builder.certificate_status = None
+            ocsp_response = builder.build(issuer_key, issuer_cert)
+
+        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+            builder = OCSPResponseBuilder('successful', subject_cert)
+            ocsp_response = builder.build(issuer_key, issuer_cert)
+
+        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+            builder = OCSPResponseBuilder('successful', None, 'good')
+            ocsp_response = builder.build(issuer_key, issuer_cert)
+
     def test_build_revoked_response(self):
         issuer_key = asymmetric.load_private_key(os.path.join(fixtures_dir, 'test.key'))
         issuer_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test.crt'))
