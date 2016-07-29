@@ -13,7 +13,7 @@
 > >     :param certificate:
 > >         An asn1crypto.x509.Certificate or oscrypto.asymmetric.Certificate
 > >         object to create the request for
-> >     
+> >
 > >     :param issuer:
 > >         An asn1crypto.x509.Certificate or oscrypto.asymmetric.Certificate
 > >         object for the issuer of the certificate
@@ -56,7 +56,7 @@
 > >         asn1crypto.ocsp.RequestExtensionId. If the extension is not one
 > >         defined in those classes, this must be an instance of one of the
 > >         classes instead of a unicode string.
-> >     
+> >
 > >     :param value:
 > >         A value object per the specs defined by
 > >         asn1crypto.ocsp.TBSRequestExtension or
@@ -67,7 +67,7 @@
 > > Sets the value for an extension using a fully constructed
 > > asn1crypto.core.Asn1Value object. Normally this should not be needed,
 > > and the convenience attributes should be sufficient.
-> > 
+> >
 > > See the definition of asn1crypto.ocsp.TBSRequestExtension and
 > > asn1crypto.ocsp.RequestExtension to determine the appropriate object
 > > type for a given extension. Extensions are marked as critical when RFC
@@ -81,17 +81,17 @@
 > >     :param requestor_private_key:
 > >         An asn1crypto.keys.PrivateKeyInfo or oscrypto.asymmetric.PrivateKey
 > >         object for the private key to sign the request with
-> >     
+> >
 > >     :param requestor_certificate:
 > >         An asn1crypto.x509.Certificate or oscrypto.asymmetric.Certificate
 > >         object of the certificate associated with the private key
-> >     
+> >
 > >     :param other_certificates:
 > >         A list of asn1crypto.x509.Certificate or
 > >         oscrypto.asymmetric.Certificate objects that may be useful for the
 > >         OCSP server to verify the request signature. Intermediate
 > >         certificates would be specified here.
-> >     
+> >
 > >     :return:
 > >         An asn1crypto.ocsp.OCSPRequest object of the request
 > >     """
@@ -99,7 +99,7 @@
 > >
 > > Validates the request information, constructs the ASN.1 structure and
 > > then optionally signs it.
-> > 
+> >
 > > The requestor_private_key, requestor_certificate and other_certificates
 > > params are all optional and only necessary if the request needs to be
 > > signed. Signing a request is uncommon for OCSP requests related to web
@@ -114,23 +114,23 @@
 > >     """
 > >     :param response_status:
 > >         A unicode string of OCSP response type:
-> >     
+> >
 > >         - "successful" - when the response includes information about the certificate
 > >         - "malformed_request" - when the request could not be understood
 > >         - "internal_error" - when an internal error occured with the OCSP responder
 > >         - "try_later" - when the OCSP responder is temporarily unavailable
 > >         - "sign_required" - when the OCSP request must be signed
 > >         - "unauthorized" - when the responder is not the correct responder for the certificate
-> >     
+> >
 > >     :param certificate:
 > >         An asn1crypto.x509.Certificate or oscrypto.asymmetric.Certificate
 > >         object of the certificate the response is about. Only required if
 > >         the response_status is "successful".
-> >     
+> >
 > >     :param certificate_status:
 > >         A unicode string of the status of the certificate. Only required if
 > >         the response_status is "successful".
-> >     
+> >
 > >          - "good" - when the certificate is in good standing
 > >          - "revoked" - when the certificate is revoked without a reason code
 > >          - "key_compromise" - when a private key is compromised
@@ -142,7 +142,7 @@
 > >          - "remove_from_crl" - only delta CRLs - when temporary hold is removed
 > >          - "privilege_withdrawn" - one of the usages for a certificate was removed
 > >          - "unknown" - the responder doesn't know about the certificate being requested
-> >     
+> >
 > >     :param revocation_date:
 > >         A datetime.datetime object of when the certificate was revoked, if
 > >         the response_status is "successful" and the certificate status is
@@ -158,7 +158,7 @@
 > > The overall status of the response. Only a "successful" response will
 > > include information about the certificate. Other response types are for
 > > signaling info about the OCSP responder. Valid values include:
-> > 
+> >
 > >  - "successful" - when the response includes information about the certificate
 > >  - "malformed_request" - when the request could not be understood
 > >  - "internal_error" - when an internal error occured with the OCSP responder
@@ -174,7 +174,7 @@
 > ##### `.certificate_status` attribute
 >
 > > A unicode string of the status of the certificate. Valid values include:
-> > 
+> >
 > >  - "good" - when the certificate is in good standing
 > >  - "revoked" - when the certificate is revoked without a reason code
 > >  - "key_compromise" - when a private key is compromised
@@ -234,7 +234,7 @@
 > >         asn1crypto.ocsp.ResponseDataExtensionId. If the extension is not one
 > >         defined in those classes, this must be an instance of one of the
 > >         classes instead of a unicode string.
-> >     
+> >
 > >     :param value:
 > >         A value object per the specs defined by
 > >         asn1crypto.ocsp.SingleResponseExtension or
@@ -245,7 +245,7 @@
 > > Sets the value for an extension using a fully constructed
 > > asn1crypto.core.Asn1Value object. Normally this should not be needed,
 > > and the convenience attributes should be sufficient.
-> > 
+> >
 > > See the definition of asn1crypto.ocsp.SingleResponseExtension and
 > > asn1crypto.ocsp.ResponseDataExtension to determine the appropriate
 > > object type for a given extension. Extensions are marked as critical
@@ -259,11 +259,11 @@
 > >     :param responder_private_key:
 > >         An asn1crypto.keys.PrivateKeyInfo or oscrypto.asymmetric.PrivateKey
 > >         object for the private key to sign the response with
-> >     
+> >
 > >     :param responder_certificate:
 > >         An asn1crypto.x509.Certificate or oscrypto.asymmetric.Certificate
 > >         object of the certificate associated with the private key
-> >     
+> >
 > >     :return:
 > >         An asn1crypto.ocsp.OCSPResponse object of the response
 > >     """
@@ -271,6 +271,6 @@
 > >
 > > Validates the request information, constructs the ASN.1 structure and
 > > signs it.
-> > 
+> >
 > > The responder_private_key and responder_certificate parameters are only
 > > required if the response_status is "successful".
