@@ -13,6 +13,11 @@ A Python library for creating and signing online certificate status protocol
  - [Testing](#testing)
  - [Development](#development)
 
+[![Travis CI](https://api.travis-ci.org/wbond/ocspbuilder.svg?branch=master)](https://travis-ci.org/wbond/ocspbuilder)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/wbond/ocspbuilder?branch=master&svg=true)](https://ci.appveyor.com/project/wbond/ocspbuilder)
+[![Codecov](https://codecov.io/gh/wbond/ocspbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/wbond/ocspbuilder)
+[![PyPI](https://img.shields.io/pypi/v/ocspbuilder.svg)](https://pypi.python.org/pypi/ocspbuilder)
+
 ## Related Crypto Libraries
 
 *ocspbuilder* is part of the modularcrypto family of Python packages:
