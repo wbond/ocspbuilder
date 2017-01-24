@@ -9,4 +9,5 @@ tests/output/
 .coverage
 .tox
 .cache/
+coverage.xml
 *.swp
