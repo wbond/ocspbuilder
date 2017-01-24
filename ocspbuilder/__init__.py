@@ -11,6 +11,8 @@ from asn1crypto import x509, keys, core, ocsp
 from asn1crypto.util import timezone
 from oscrypto import asymmetric, util
 
+from .version import __version__, __version_info__
+
 if sys.version_info < (3,):
     int_types = (int, long)  # noqa
     str_cls = unicode  # noqa
@@ -21,8 +23,12 @@ else:
     byte_cls = bytes
 
 
-__version__ = '0.10.2'
-__version_info__ = (0, 10, 2)
+__all__ = [
+    '__version__',
+    '__version_info__',
+    'OCSPRequestBuilder',
+    'OCSPResponseBuilder',
+]
 
 
 def _writer(func):

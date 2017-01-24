@@ -3,7 +3,7 @@ import shutil
 
 from setuptools import setup, find_packages, Command
 
-import ocspbuilder
+from ocspbuilder import version
 
 
 class CleanCommand(Command):
@@ -27,7 +27,7 @@ class CleanCommand(Command):
 
 setup(
     name='ocspbuilder',
-    version=ocspbuilder.__version__,
+    version=version.__version__,
 
     description=(
         'Creates and signs online certificate status protocol (OCSP) '
