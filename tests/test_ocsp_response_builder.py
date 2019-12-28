@@ -62,21 +62,21 @@ class OCSPResponseBuilderTests(unittest.TestCase):
         issuer_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test.crt'))
         subject_cert = asymmetric.load_certificate(os.path.join(fixtures_dir, 'test-inter.crt'))
 
-        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+        with self.assertRaisesRegex(ValueError, 'must be set if the response_status is "successful"'):
             builder = OCSPResponseBuilder('successful', subject_cert, 'good')
             builder.certificate = None
             builder.build(issuer_key, issuer_cert)
 
-        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+        with self.assertRaisesRegex(ValueError, 'must be set if the response_status is "successful"'):
             builder = OCSPResponseBuilder('successful', subject_cert, 'good')
             builder.certificate_status = None
             builder.build(issuer_key, issuer_cert)
 
-        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+        with self.assertRaisesRegex(ValueError, 'must be set if the response_status is "successful"'):
             builder = OCSPResponseBuilder('successful', subject_cert)
             builder.build(issuer_key, issuer_cert)
 
-        with self.assertRaisesRegexp(ValueError, 'must be set if the response_status is "successful"'):
+        with self.assertRaisesRegex(ValueError, 'must be set if the response_status is "successful"'):
             builder = OCSPResponseBuilder('successful', None, 'good')
             builder.build(issuer_key, issuer_cert)
 
