@@ -14,6 +14,7 @@ A Python library for creating and signing online certificate status protocol
  - [Development](#development)
  - [CI Tasks](#ci-tasks)
 
+[![GitHub Actions CI](https://github.com/wbond/ocspbuilder/workflows/CI/badge.svg)](https://github.com/wbond/ocspbuilder/actions?workflow=CI)
 [![Travis CI](https://api.travis-ci.org/wbond/ocspbuilder.svg?branch=master)](https://travis-ci.org/wbond/ocspbuilder)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/wbond/ocspbuilder?branch=master&svg=true)](https://ci.appveyor.com/project/wbond/ocspbuilder)
 [![CircleCI](https://circleci.com/gh/wbond/ocspbuilder.svg?style=shield)](https://circleci.com/gh/wbond/ocspbuilder)
@@ -34,7 +35,7 @@ A Python library for creating and signing online certificate status protocol
 
 ## Current Release
 
-0.10.2 - [changelog](changelog.md)
+0.11.0 - [changelog](changelog.md)
 
 ## Dependencies
 
