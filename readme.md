@@ -15,10 +15,7 @@ A Python library for creating and signing online certificate status protocol
  - [CI Tasks](#ci-tasks)
 
 [![GitHub Actions CI](https://github.com/wbond/ocspbuilder/workflows/CI/badge.svg)](https://github.com/wbond/ocspbuilder/actions?workflow=CI)
-[![Travis CI](https://api.travis-ci.org/wbond/ocspbuilder.svg?branch=master)](https://travis-ci.org/wbond/ocspbuilder)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/wbond/ocspbuilder?branch=master&svg=true)](https://ci.appveyor.com/project/wbond/ocspbuilder)
 [![CircleCI](https://circleci.com/gh/wbond/ocspbuilder.svg?style=shield)](https://circleci.com/gh/wbond/ocspbuilder)
-[![Codecov](https://codecov.io/gh/wbond/ocspbuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/wbond/ocspbuilder)
 [![PyPI](https://img.shields.io/pypi/v/ocspbuilder.svg)](https://pypi.python.org/pypi/ocspbuilder)
 
 ## Related Crypto Libraries
@@ -41,7 +38,7 @@ A Python library for creating and signing online certificate status protocol
 
  - [*asn1crypto*](https://github.com/wbond/asn1crypto)
  - [*oscrypto*](https://github.com/wbond/oscrypto)
- - Python 2.6, 2.7, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8 or pypy
+ - Python 2.6, 2.7, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9 or pypy
 
 ## Installation
 
@@ -60,10 +57,8 @@ pip install ocspbuilder
 
 ## Continuous Integration
 
- - [Windows](https://ci.appveyor.com/project/wbond/ocspbuilder/history) via AppVeyor
- - [OS X](https://circleci.com/gh/wbond/ocspbuilder) via CircleCI
- - [Linux](https://travis-ci.org/wbond/ocspbuilder/builds) via Travis CI
- - [Test Coverage](https://codecov.io/gh/wbond/ocspbuilder/commits) via Codecov
+ - [macOS, Linux, Windows](https://github.com/wbond/ocspbuilder/actions/workflows/ci.yml) via GitHub Actions
+ - [arm64](https://circleci.com/gh/wbond/ocspbuilder) via CircleCI
 
 ## Testing
 
